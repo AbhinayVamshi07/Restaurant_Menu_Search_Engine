@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Restaurant Menu Search</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f6f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+
+        .search-section {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .search-section input {
+            width: 800px;
+            max-width: 70%;
+            padding: 20px;
+            font-size: 20px;
+            border-radius: 14px;
+            border: 2px solid #ccc;
+        }
+
+        .search-section button {
+            padding: 20px 35px;
+            font-size: 20px;
+            border-radius: 14px;
+            border: none;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-section button:hover {
+            background: #0056b3;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 100%;
+            max-height: 450px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .rating {
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .message {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #444;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🍽 Restaurant Menu Search</h1>
+
+    <div class="search-section">
+        <input type="text" id="searchInput" placeholder="Search for a menu item...">
+        <button onclick="searchItem()">Search</button>
+    </div>
+
+    <div id="results"></div>
+
+</div>
+
+<script>
+
+function searchItem() {
+    let query = document.getElementById("searchInput").value;
+
+    fetch("/search", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ query: query })
+    })
+    .then(res => res.json())
+    .then(data => renderResults(data));
+}
+
+function loadFullItem(itemName) {
+    fetch("/search", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ query: itemName })
+    })
+    .then(res => res.json())
+    .then(data => renderResults(data));
+}
+
+function renderResults(data) {
+
+    let resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+
+    if (data.status === "found") {
+
+        resultsDiv.innerHTML = `
+            <button class="back-btn" onclick="searchItem()">⬅ Back</button>
+            <div class="results-grid">
+                <div class="card">
+                    <img loading="lazy" src="${data.image}">
+                    <h3>${data.item_name}</h3>
+                    <p>${data.description}</p>
+                    <p class="price">€${data.price}</p>
+                    <p><strong>Category:</strong> ${data.category}</p>
+                    <p><strong>Restaurant:</strong> ${data.restaurant}</p>
+                    <p class="rating">⭐ ${data.rating}</p>
+                </div>
+            </div>
+        `;
+    } 
+    else {
+
+        resultsDiv.innerHTML += `<div class="message">${data.message}</div>`;
+        resultsDiv.innerHTML += `<div class="results-grid"></div>`;
+
+        let grid = document.querySelector(".results-grid");
+
+        data.recommendations.forEach(item => {
+            grid.innerHTML += `
+                <div class="card" onclick="loadFullItem('${item.menuItemName.replace(/'/g, "\\'")}')">
+                    <img loading="lazy" src="${item.menuItemImageUrl}">
+                    <h3>${item.menuItemName}</h3>
+                    <p class="price">€${item.menuItemCurrentPrice}</p>
+                    <p><strong>Restaurant:</strong> ${item.restaurantName}</p>
+                </div>
+            `;
+        });
+    }
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+{"timestamp": "2026-02-12 16:13:50", "query": "Chicken wings", "status": "similarity_fallback", "results": ["Wings", "BUFFALO WINGS", "BBQ WINGS"]}
+{"timestamp": "2026-02-12 16:13:51", "query": "Wings", "status": "exact_match", "results": ["Wings"]}
+{"timestamp": "2026-02-12 16:18:12", "query": "Chicken wings", "status": "similarity_fallback", "results": ["Wings", "BUFFALO WINGS", "BBQ WINGS"]}
+{"timestamp": "2026-02-12 16:19:41", "query": "I want Spicy food", "status": "similarity_fallback", "results": ["Spicy Italian", "Spicy Italian", "\u98d8\u9999\u8fa3\u5b50\u9e21 / Crispy Spicy Chicken"]}
+{"timestamp": "2026-02-12 16:19:51", "query": "Spicy Italian", "status": "exact_match", "results": ["Spicy Italian"]}
+{"timestamp": "2026-02-12 16:20:03", "query": "I want Spicy food", "status": "similarity_fallback", "results": ["Spicy Italian", "Spicy Italian", "\u98d8\u9999\u8fa3\u5b50\u9e21 / Crispy Spicy Chicken"]}
+{"timestamp": "2026-02-12 16:20:04", "query": "\u98d8\u9999\u8fa3\u5b50\u9e21 / Crispy Spicy Chicken", "status": "exact_match", "results": ["\u98d8\u9999\u8fa3\u5b50\u9e21 / Crispy Spicy Chicken"]}
+{"timestamp": "2026-02-12 16:20:08", "query": "I want Spicy food", "status": "similarity_fallback", "results": ["Spicy Italian", "Spicy Italian", "\u98d8\u9999\u8fa3\u5b50\u9e21 / Crispy Spicy Chicken"]}
